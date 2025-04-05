@@ -1,18 +1,44 @@
-name: Dependency scan
+name: CodeQL & Dependency scan
 on:
   pull_request:
     branches: [ "master" ]
 
 permissions:
+  security-events: write
+  packages: read
   contents: read
 
 jobs:
-  dependency-review:
+  analyze:
+    name: Analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: actions
+          build-mode: none
+        - language: java-kotlin
+          build-mode: none
 
     steps:
       - name: 'Checkout Repository'
         uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build-mode }}
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{matrix.language}}"
+
+
+      -name: 
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v4
         with:
