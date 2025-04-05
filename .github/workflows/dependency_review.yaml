@@ -37,8 +37,6 @@ jobs:
       with:
         category: "/language:${{matrix.language}}"
 
-
-    -name: 
     - name: 'Dependency Review'
       uses: actions/dependency-review-action@v4
       with:
