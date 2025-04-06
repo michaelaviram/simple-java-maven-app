@@ -56,3 +56,24 @@ jobs:
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
+deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Deploy to EC2
+      env:
+        PRIVATE_KEY: ${{ secrets.EC2_KEY }}
+      run:  |
+        echo "$PRIVATE_KEY" > github-ec2.pem && chmod 600 github-ec2.pem
+        ssh -o StrictHostKeyChecking=no -i github-ec2.pem ec2-user@3.72.18.48 '
+        docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+        docker pull michaelaviram/java-app:latest
+        cosign verify --key cosign.pub michaelaviram/java-app:latest@${DIGEST}
+        '
+      env:
+        DIGEST: ${{ steps.build-and-push.outputs.digest }}
+ 
+        
+
+
