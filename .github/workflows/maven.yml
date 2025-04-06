@@ -62,8 +62,7 @@ jobs:
         ssh -o StrictHostKeyChecking=no -i github-ec2.pem ec2-user@3.72.18.48 '
         docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
         docker pull michaelaviram/java-app:latest
-        cosign verify --key cosign.pub michaelaviram/java-app:latest || exit 1
-        docker run michaelaviram/java-app:latest
+        cosign verify --key cosign.pub michaelaviram/java-app:latest
         '
       env:
         PRIVATE_KEY: ${{ secrets.EC2_KEY }}        
