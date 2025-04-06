@@ -51,8 +51,8 @@ jobs:
     - name: Sign Image
       run: |
        cosign generate-key-pair
-       cosign sign --yes --key cosign.key michaelaviram/java-app:latest
-       cosign verify --key cosign.pub michaelaviram/java-app:latest
+       cosign sign --yes --key cosign.key michaelaviram/java-app:latest@${DIGEST}
+       cosign verify --key cosign.pub michaelaviram/java-app:latest@${DIGEST}
       env:
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
