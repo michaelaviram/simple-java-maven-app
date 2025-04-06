@@ -56,11 +56,6 @@ jobs:
         COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
-deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-
     - name: Deploy to EC2
       env:
         PRIVATE_KEY: ${{ secrets.EC2_KEY }}
