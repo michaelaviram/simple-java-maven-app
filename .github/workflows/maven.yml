@@ -19,7 +19,8 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - uses: hadolint/hadolint-action@v3.1.0
+    - name: Dockerfile scan
+      uses: hadolint/hadolint-action@v3.1.0
       with:
         dockerfile: Dockerfile
         failure-threshold: error
