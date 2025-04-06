@@ -49,7 +49,7 @@ jobs:
 
     - name: Sign Image
       run: |
-       consign generate-key-pair
+       cosign generate-key-pair
        cosign sign --yes --key cosign.key michaelaviram/java-app:latest
        cosign verify --key cosign.pub michaelaviram/java-app:latest
 
