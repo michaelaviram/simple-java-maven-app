@@ -57,8 +57,6 @@ jobs:
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
 
     - name: Deploy to EC2
-      env:
-        PRIVATE_KEY: ${{ secrets.EC2_KEY }}
       run:  |
         echo "$PRIVATE_KEY" > github-ec2.pem && chmod 600 github-ec2.pem
         ssh -o StrictHostKeyChecking=no -i github-ec2.pem ec2-user@3.72.18.48 '
@@ -67,6 +65,7 @@ jobs:
         cosign verify --key cosign.pub michaelaviram/java-app:latest@${DIGEST}
         '
       env:
+        PRIVATE_KEY: ${{ secrets.EC2_KEY }}
         DIGEST: ${{ steps.build-and-push.outputs.digest }}
  
         
