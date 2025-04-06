@@ -66,8 +66,6 @@ jobs:
         docker run michaelaviram/java-app:latest
         '
       env:
-        PRIVATE_KEY: ${{ secrets.EC2_KEY }}
- 
-        
+        PRIVATE_KEY: ${{ secrets.EC2_KEY }}        
 
 
